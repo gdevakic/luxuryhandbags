@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Detail — MAISON LUXE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--cream:#F5F0E8;--dark:#1A1410;--gold:#C9A84C;--gold-light:#E8D5A3;--warm-gray:#8A7F74;--accent:#8B2635;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--cream);color:var(--dark);font-family:'Montserrat',sans-serif;}
+    nav{position:fixed;top:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 4rem;background:rgba(245,240,232,0.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,76,0.2);}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;letter-spacing:0.3em;color:var(--dark);text-decoration:none;}
+    .nav-links{display:flex;gap:2.5rem;list-style:none;}
+    .nav-links a{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dark);text-decoration:none;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--gold);}
+    .nav-icons{display:flex;gap:1.5rem;align-items:center;}
+    .nav-icons a{color:var(--dark);text-decoration:none;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
+    .nav-icons a:hover{color:var(--gold);}
+    .cart-badge{background:var(--accent);color:white;border-radius:50%;width:18px;height:18px;font-size:0.6rem;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;}
+
+    .product-main{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:80px;min-height:calc(100vh - 80px);}
+
+    /* IMAGE SIDE */
+    .product-images{position:sticky;top:80px;height:calc(100vh - 80px);display:grid;grid-template-columns:80px 1fr;gap:1rem;padding:2rem;}
+    .thumbnails{display:flex;flex-direction:column;gap:0.75rem;}
+    .thumb{width:80px;height:95px;background:var(--dark);cursor:pointer;border:2px solid transparent;transition:border-color 0.2s;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    .thumb.active{border-color:var(--gold);}
+    .main-img{background:var(--dark);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+    .product-badge-big{position:absolute;top:1.5rem;left:1.5rem;background:var(--accent);color:white;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.4rem 0.75rem;z-index:2;}
+    .zoom-hint{position:absolute;bottom:1.5rem;right:1.5rem;font-size:0.65rem;letter-spacing:0.1em;color:rgba(245,240,232,0.5);text-transform:uppercase;}
+
+    /* INFO SIDE */
+    .product-info{padding:3rem;overflow-y:auto;max-height:calc(100vh - 80px);}
+    .breadcrumb{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:2rem;}
+    .breadcrumb a{color:var(--warm-gray);text-decoration:none;transition:color 0.2s;}
+    .breadcrumb a:hover{color:var(--gold);}
+    .breadcrumb span{margin:0 0.5rem;}
+    .product-title{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;margin-bottom:0.5rem;line-height:1.2;}
+    .product-sub{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:1.5rem;}
+    .rating-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+    .stars{color:var(--gold);font-size:0.85rem;}
+    .review-count{font-size:0.72rem;color:var(--warm-gray);text-decoration:underline;cursor:pointer;}
+    .price-display{font-size:2rem;font-weight:600;margin-bottom:0.5rem;}
+    .price-note{font-size:0.72rem;color:var(--warm-gray);margin-bottom:2rem;}
+    .original-price{font-size:1rem;text-decoration:line-through;color:var(--warm-gray);font-weight:300;margin-left:0.5rem;}
+    .save-badge{font-size:0.7rem;background:var(--accent);color:white;padding:0.2rem 0.5rem;margin-left:0.5rem;}
+
+    .option-label{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;margin-top:1.5rem;}
+    .color-options{display:flex;gap:0.75rem;margin-bottom:0.5rem;}
+    .color-opt{width:32px;height:32px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.2s;position:relative;}
+    .color-opt.active::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--dark);}
+    .size-options{display:flex;gap:0.75rem;flex-wrap:wrap;}
+    .size-opt{padding:0.5rem 1rem;border:1px solid rgba(26,20,16,0.2);font-size:0.72rem;cursor:pointer;transition:all 0.2s;font-family:'Montserrat',sans-serif;background:transparent;}
+    .size-opt.active,.size-opt:hover{background:var(--dark);color:var(--cream);border-color:var(--dark);}
+    .qty-row{display:flex;align-items:center;gap:0;margin-top:1.5rem;margin-bottom:1.5rem;width:fit-content;border:1px solid rgba(26,20,16,0.2);}
+    .qty-btn{width:40px;height:48px;background:transparent;border:none;font-size:1.2rem;cursor:pointer;color:var(--dark);transition:background 0.2s;}
+    .qty-btn:hover{background:rgba(26,20,16,0.05);}
+    .qty-input{width:55px;height:48px;text-align:center;border:none;border-left:1px solid rgba(26,20,16,0.2);border-right:1px solid rgba(26,20,16,0.2);font-family:'Montserrat',sans-serif;font-size:0.9rem;background:transparent;outline:none;}
+    .action-row{display:flex;gap:1rem;margin-bottom:1.5rem;}
+    .btn-add-cart{flex:1;padding:1.1rem;background:var(--dark);color:var(--cream);border:none;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:600;transition:background 0.2s;}
+    .btn-add-cart:hover{background:var(--gold);color:var(--dark);}
+    .btn-wishlist{width:54px;padding:1.1rem;background:transparent;border:1px solid rgba(26,20,16,0.3);cursor:pointer;font-size:1.1rem;transition:all 0.2s;}
+    .btn-wishlist:hover{border-color:var(--accent);color:var(--accent);}
+    .btn-buy-now{width:100%;padding:1.1rem;background:var(--gold);color:var(--dark);border:none;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:600;transition:background 0.2s;margin-bottom:2rem;}
+    .btn-buy-now:hover{background:var(--gold-light);}
+    .divider{height:1px;background:rgba(26,20,16,0.1);margin:2rem 0;}
+    .details-accordion{}
+    .accordion-item{border-bottom:1px solid rgba(26,20,16,0.1);}
+    .accordion-header{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 0;cursor:pointer;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;}
+    .accordion-icon{transition:transform 0.3s;font-size:0.8rem;}
+    .accordion-body{max-height:0;overflow:hidden;transition:max-height 0.3s ease;}
+    .accordion-body.open{max-height:300px;}
+    .accordion-body p{font-size:0.78rem;color:var(--warm-gray);line-height:1.8;padding-bottom:1.2rem;}
+    .accordion-body ul{font-size:0.78rem;color:var(--warm-gray);line-height:2;padding-left:1.2rem;padding-bottom:1.2rem;}
+    .trust-row{display:flex;gap:2rem;margin-top:1.5rem;}
+    .trust-item{display:flex;align-items:center;gap:0.5rem;font-size:0.68rem;color:var(--warm-gray);letter-spacing:0.05em;}
+    .trust-icon{font-size:1rem;color:var(--gold);}
+
+    /* RELATED */
+    .related-section{padding:4rem;}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;margin-bottom:2.5rem;}
+    .section-title em{font-style:italic;color:var(--gold);}
+    .related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;}
+    .r-card{cursor:pointer;}
+    .r-img{aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;margin-bottom:0.75rem;position:relative;overflow:hidden;}
+    .r-img-fill{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform 0.4s;}
+    .r-card:hover .r-img-fill{transform:scale(1.05);}
+    .r-name{font-family:'Cormorant Garamond',serif;font-size:1rem;margin-bottom:0.25rem;}
+    .r-price{font-size:0.82rem;font-weight:600;}
+
+    .toast{position:fixed;bottom:2rem;right:2rem;background:var(--dark);color:var(--cream);padding:1rem 1.5rem;font-size:0.75rem;z-index:999;transform:translateX(200%);transition:transform 0.3s;border-left:3px solid var(--gold);}
+    .toast.show{transform:translateX(0);}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MAISON LUXE</a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Collections</a></li>
+    <li><a href="shop.html">New Arrivals</a></li>
+    <li><a href="shop.html">Sale</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-icons">
+    <a href="shop.html">Shop</a>
+    <a href="cart.html">Cart <span class="cart-badge" id="cartCount">0</span></a>
+  </div>
+</nav>
+
+<div class="product-main">
+  <!-- IMAGE GALLERY -->
+  <div class="product-images">
+    <div class="thumbnails" id="thumbs"></div>
+    <div class="main-img" id="mainImg">
+      <span class="product-badge-big">New Arrival</span>
+      <span class="zoom-hint">Hover to zoom</span>
+    </div>
+  </div>
+
+  <!-- PRODUCT INFO -->
+  <div class="product-info">
+    <p class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="shop.html">Collections</a><span>›</span>Riviera Tote</p>
+    <h1 class="product-title">Riviera Tote</h1>
+    <p class="product-sub">Shoulder Bag · Full-Grain Leather</p>
+    <div class="rating-row">
+      <span class="stars">★★★★★</span>
+      <span class="review-count">42 Reviews</span>
+    </div>
+    <div class="price-display">₹8,499 <span class="original-price">₹10,999</span> <span class="save-badge">SAVE 23%</span></div>
+    <p class="price-note">Inclusive of all taxes · Free shipping on this item</p>
+
+    <p class="option-label">Color — <span style="font-weight:600;text-transform:none">Cognac Tan</span></p>
+    <div class="color-options">
+      <div class="color-opt active" style="background:#C4956A" title="Cognac Tan"></div>
+      <div class="color-opt" style="background:#2A2A2A" title="Midnight Black"></div>
+      <div class="color-opt" style="background:#1B2A4A" title="Navy Blue"></div>
+      <div class="color-opt" style="background:#8B2635" title="Burgundy"></div>
+    </div>
+
+    <p class="option-label">Size</p>
+    <div class="size-options">
+      <button class="size-opt">Small</button>
+      <button class="size-opt active">Medium</button>
+      <button class="size-opt">Large</button>
+    </div>
+
+    <div class="qty-row">
+      <button class="qty-btn" onclick="changeQty(-1)">−</button>
+      <input type="number" class="qty-input" id="qtyInput" value="1" min="1">
+      <button class="qty-btn" onclick="changeQty(1)">+</button>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-add-cart" onclick="addToCart()">Add to Cart</button>
+      <button class="btn-wishlist">♡</button>
+    </div>
+    <button class="btn-buy-now" onclick="location.href='cart.html'">Buy Now</button>
+
+    <div class="trust-row">
+      <div class="trust-item"><span class="trust-icon">✦</span>Genuine Leather</div>
+      <div class="trust-item"><span class="trust-icon">◈</span>Free Shipping</div>
+      <div class="trust-item"><span class="trust-icon">⟡</span>30-Day Returns</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="details-accordion">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Description <span class="accordion-icon">+</span>
+        </div>
+        <div class="accordion-body open">
+          <p>The Riviera Tote is a timeless statement piece that effortlessly transitions from day to evening. Crafted from premium full-grain leather, this spacious shoulder bag features a structured silhouette with hand-stitched detailing that showcases the artisanal craftsmanship at the heart of Maison Luxe.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Details & Dimensions <span class="accordion-icon">+</span>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li>Material: Full-grain Italian leather</li>
+            <li>Lining: Premium suede interior</li>
+            <li>Dimensions: 38cm × 28cm × 12cm</li>
+            <li>Strap Drop: 22cm</li>
+            <li>Closure: Magnetic snap with zip pocket</li>
+            <li>Pockets: 1 zip, 2 open interior</li>
+            <li>Hardware: 18k gold-plated brass</li>
+          </ul>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Shipping & Returns <span class="accordion-icon">+</span>
+        </div>
+        <div class="accordion-body">
+          <p>Free express shipping on all orders. Delivery within 3-5 business days. Easy 30-day returns on all unworn items in original packaging. Contact our care team for assistance.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          Care Instructions <span class="accordion-icon">+</span>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li>Store in the provided dust bag when not in use</li>
+            <li>Avoid prolonged exposure to direct sunlight</li>
+            <li>Clean with a soft, dry cloth</li>
+            <li>For deep cleaning, use a leather conditioner</li>
+            <li>Keep away from water and moisture</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<div class="related-section">
+  <h2 class="section-title">You May Also <em>Love</em></h2>
+  <div class="related-grid" id="relatedGrid"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const bagColors={tan:"#C4956A",gold:"#C9A84C",black:"#2A2A2A",navy:"#1B2A4A",red:"#8B2635",cream:"#D4C5A9",green:"#7AB87A"};
+  const related=[
+    {id:2,name:"Céleste Clutch",type:"Evening Bag",price:5299,img:"gold"},
+    {id:3,name:"Monaco Mini",type:"Mini Bag",price:6799,img:"black"},
+    {id:5,name:"Provence Satchel",type:"Shoulder Bag",price:9999,img:"red"},
+    {id:4,name:"Côte d'Azur",type:"Crossbody",price:7299,img:"navy"},
+  ];
+
+  // Render thumbnails
+  const thumbColors=["tan","black","red","navy"];
+  const thumbsEl=document.getElementById('thumbs');
+  thumbsEl.innerHTML=thumbColors.map((c,i)=>`
+    <div class="thumb ${i===0?'active':''}" onclick="selectThumb(this,'${c}')">
+      <svg viewBox="0 0 80 95" width="55" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="30" width="70" height="60" rx="5" fill="${bagColors[c]}"/>
+        <path d="M25 30 C25 10 55 10 55 30" stroke="${bagColors[c]}88" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <rect x="32" y="52" width="16" height="11" rx="2" fill="#C9A84C"/>
+      </svg>
+    </div>`).join('');
+
+  // Main image
+  document.getElementById('mainImg').innerHTML += `
+    <svg viewBox="0 0 300 370" width="240" xmlns="http://www.w3.org/2000/svg">
+      <rect x="25" y="110" width="250" height="230" rx="12" fill="#C4956A"/>
+      <rect x="40" y="125" width="220" height="200" rx="10" fill="#D4A574" opacity="0.5"/>
+      <path d="M90 110 C90 65 210 65 210 110" stroke="#A0784A" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <rect x="118" y="190" width="64" height="40" rx="5" fill="#C9A84C"/>
+      <rect x="126" y="198" width="48" height="24" rx="3" fill="#A8883A"/>
+      <line x1="40" y1="170" x2="260" y2="170" stroke="#A0784A" stroke-width="1.5" opacity="0.4"/>
+      <circle cx="144" cy="148" r="4" fill="#C9A84C" opacity="0.7"/>
+      <circle cx="156" cy="148" r="4" fill="#C9A84C" opacity="0.7"/>
+    </svg>`;
+
+  function selectThumb(el,color) {
+    document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+    const main=document.getElementById('mainImg');
+    const svgRect=main.querySelector('rect');
+    if(svgRect) svgRect.setAttribute('fill',bagColors[color]);
+  }
+
+  // Related
+  document.getElementById('relatedGrid').innerHTML=related.map(p=>`
+    <div class="r-card" onclick="location.href='product.html?id=${p.id}'">
+      <div class="r-img" style="background:linear-gradient(135deg,${bagColors[p.img]}22,${bagColors[p.img]}55)">
+        <div class="r-img-fill">
+          <svg viewBox="0 0 200 250" width="120" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="80" width="160" height="150" rx="10" fill="${bagColors[p.img]}"/>
+            <path d="M65 80 C65 45 135 45 135 80" stroke="${bagColors[p.img]}88" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <rect x="80" y="135" width="40" height="28" rx="4" fill="#C9A84C"/>
+          </svg>
+        </div>
+      </div>
+      <p style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:0.25rem">${p.type}</p>
+      <p class="r-name">${p.name}</p>
+      <p class="r-price">₹${p.price.toLocaleString('en-IN')}</p>
+    </div>`).join('');
+
+  function changeQty(delta) {
+    const inp=document.getElementById('qtyInput');
+    const val=Math.max(1,parseInt(inp.value)+delta);
+    inp.value=val;
+  }
+
+  function addToCart() {
+    const qty=parseInt(document.getElementById('qtyInput').value);
+    let cart=JSON.parse(localStorage.getItem('mlCart')||'[]');
+    const ex=cart.find(i=>i.id===1);
+    if(ex) ex.qty+=qty; else cart.push({id:1,name:'Riviera Tote',price:8499,qty});
+    localStorage.setItem('mlCart',JSON.stringify(cart));
+    updateCartCount();
+    showToast('Riviera Tote added to cart!');
+  }
+
+  function updateCartCount() {
+    const cart=JSON.parse(localStorage.getItem('mlCart')||'[]');
+    const total=cart.reduce((s,i)=>s+i.qty,0);
+    document.querySelectorAll('#cartCount').forEach(el=>el.textContent=total);
+  }
+
+  function showToast(msg) {
+    const t=document.getElementById('toast');
+    t.textContent=msg; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2500);
+  }
+
+  function toggleAccordion(header) {
+    const body=header.nextElementSibling;
+    const icon=header.querySelector('.accordion-icon');
+    const isOpen=body.classList.contains('open');
+    document.querySelectorAll('.accordion-body').forEach(b=>{b.classList.remove('open');});
+    document.querySelectorAll('.accordion-icon').forEach(i=>{i.textContent='+';});
+    if(!isOpen){body.classList.add('open');icon.textContent='−';}
+  }
+
+  document.querySelectorAll('.color-opt').forEach(o=>{
+    o.addEventListener('click',function(){
+      document.querySelectorAll('.color-opt').forEach(x=>x.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.size-opt').forEach(o=>{
+    o.addEventListener('click',function(){
+      document.querySelectorAll('.size-opt').forEach(x=>x.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  updateCartCount();
+</script>
+</body>
+</html>
