@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — MAISON LUXE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--cream:#F5F0E8;--dark:#1A1410;--gold:#C9A84C;--gold-light:#E8D5A3;--warm-gray:#8A7F74;--accent:#8B2635;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--cream);color:var(--dark);font-family:'Montserrat',sans-serif;}
+    nav{position:fixed;top:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 4rem;background:rgba(245,240,232,0.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,76,0.2);}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;letter-spacing:0.3em;color:var(--dark);text-decoration:none;}
+    .nav-links{display:flex;gap:2.5rem;list-style:none;}
+    .nav-links a{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dark);text-decoration:none;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--gold);}
+    .nav-icons{display:flex;gap:1.5rem;align-items:center;}
+    .nav-icons a{color:var(--dark);text-decoration:none;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
+    .cart-badge{background:var(--accent);color:white;border-radius:50%;width:18px;height:18px;font-size:0.6rem;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;}
+
+    /* HERO */
+    .about-hero{margin-top:80px;height:65vh;background:var(--dark);display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;}
+    .about-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1A1410,#3D2B1F);}
+    .about-hero-tex{position:absolute;inset:0;opacity:0.04;background-image:repeating-linear-gradient(45deg,#C9A84C 0,#C9A84C 1px,transparent 0,transparent 50%);background-size:20px 20px;}
+    .about-hero-content{position:relative;z-index:2;}
+    .about-tag{font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;}
+    .about-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:300;color:var(--cream);line-height:1.1;}
+    .about-title em{font-style:italic;color:var(--gold);}
+
+    /* STORY */
+    .story{display:grid;grid-template-columns:1fr 1fr;gap:6rem;padding:7rem 6rem;align-items:center;}
+    .story-img{height:550px;background:linear-gradient(135deg,#3D2B1F,#5C3D28);display:flex;align-items:center;justify-content:center;position:relative;}
+    .story-img::before{content:'';position:absolute;top:2rem;left:2rem;right:-2rem;bottom:-2rem;border:1px solid rgba(201,168,76,0.3);z-index:0;}
+    .story-tag{font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;}
+    .story-title{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;margin-bottom:2rem;line-height:1.2;}
+    .story-title em{font-style:italic;color:var(--gold);}
+    .story-text{font-size:0.82rem;line-height:2;color:var(--warm-gray);margin-bottom:1.5rem;}
+    .story-sig{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-style:italic;color:var(--dark);margin-top:2rem;}
+
+    /* VALUES */
+    .values{background:var(--dark);padding:6rem 4rem;}
+    .values-title{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:var(--cream);text-align:center;margin-bottom:4rem;}
+    .values-title em{font-style:italic;color:var(--gold);}
+    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;}
+    .value-card{padding:2.5rem;border:1px solid rgba(245,240,232,0.08);text-align:center;transition:border-color 0.3s;}
+    .value-card:hover{border-color:rgba(201,168,76,0.4);}
+    .v-icon{font-size:2rem;color:var(--gold);margin-bottom:1.5rem;}
+    .v-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--cream);margin-bottom:1rem;}
+    .v-text{font-size:0.75rem;color:rgba(245,240,232,0.5);line-height:1.9;}
+
+    /* STATS */
+    .stats{padding:5rem 4rem;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;border-bottom:1px solid rgba(26,20,16,0.1);}
+    .stat-item{text-align:center;}
+    .stat-num{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:var(--gold);}
+    .stat-label{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--warm-gray);margin-top:0.5rem;}
+
+    /* TEAM */
+    .team{padding:6rem 4rem;}
+    .team-title{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;margin-bottom:3rem;}
+    .team-title em{font-style:italic;color:var(--gold);}
+    .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+    .team-card{text-align:center;}
+    .team-photo{height:300px;background:linear-gradient(135deg,#3D2B1F,#5C3D28);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;font-size:4rem;}
+    .team-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin-bottom:0.3rem;}
+    .team-role{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-gray);}
+
+    footer{background:var(--dark);color:var(--cream);padding:3rem 4rem;}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;}
+    .footer-copy{font-size:0.68rem;color:rgba(245,240,232,0.3);}
+    .footer-links{display:flex;gap:1.5rem;}
+    .footer-links a{font-size:0.68rem;color:rgba(245,240,232,0.3);text-decoration:none;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--gold);}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MAISON LUXE</a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Collections</a></li>
+    <li><a href="shop.html">New Arrivals</a></li>
+    <li><a href="shop.html">Sale</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-icons">
+    <a href="shop.html">Shop</a>
+    <a href="cart.html">Cart <span class="cart-badge" id="cartCount">0</span></a>
+  </div>
+</nav>
+
+<div class="about-hero">
+  <div class="about-hero-bg"></div>
+  <div class="about-hero-tex"></div>
+  <div class="about-hero-content">
+    <p class="about-tag">Our Story</p>
+    <h1 class="about-title">Crafted with<br><em>Passion</em></h1>
+  </div>
+</div>
+
+<!-- STORY -->
+<div class="story">
+  <div class="story-img">
+    <svg viewBox="0 0 280 340" width="200" xmlns="http://www.w3.org/2000/svg">
+      <rect x="25" y="100" width="230" height="215" rx="12" fill="#C4956A"/>
+      <path d="M85 100 C85 58 195 58 195 100" stroke="#A0784A" stroke-width="15" fill="none" stroke-linecap="round"/>
+      <rect x="110" y="178" width="60" height="40" rx="5" fill="#C9A84C"/>
+      <line x1="38" y1="160" x2="242" y2="160" stroke="rgba(0,0,0,0.2)" stroke-width="1.5"/>
+    </svg>
+  </div>
+  <div>
+    <p class="story-tag">Est. 2018 · Mumbai, India</p>
+    <h2 class="story-title">Where <em>Artistry</em><br>Meets Elegance</h2>
+    <p class="story-text">Maison Luxe was born from a simple belief: that every woman deserves to carry something beautiful. Founded in the vibrant city of Mumbai, our journey began in a small atelier where skilled craftspeople worked tirelessly to create bags that would endure the test of time.</p>
+    <p class="story-text">We source the finest full-grain leathers from established tanneries, work with artisans who have honed their craft over generations, and create pieces that tell stories of their own. Each bag is a dialogue between tradition and modernity — respectful of heritage, yet alive to the present.</p>
+    <p class="story-text">Today, Maison Luxe serves thousands of women across India and beyond, and our commitment remains unchanged: to craft bags worthy of your most memorable moments.</p>
+    <p class="story-sig">— Priya Sharma, Founder</p>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item"><p class="stat-num">12K+</p><p class="stat-label">Happy Customers</p></div>
+  <div class="stat-item"><p class="stat-num">200+</p><p class="stat-label">Unique Designs</p></div>
+  <div class="stat-item"><p class="stat-num">7</p><p class="stat-label">Years of Craft</p></div>
+  <div class="stat-item"><p class="stat-num">98%</p><p class="stat-label">Satisfaction Rate</p></div>
+</div>
+
+<!-- VALUES -->
+<div class="values">
+  <h2 class="values-title">What We <em>Believe In</em></h2>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="v-icon">✦</div>
+      <h3 class="v-title">Craftsmanship First</h3>
+      <p class="v-text">Every stitch, every fold, every detail is executed by hand by artisans who have devoted their lives to the leatherworking tradition. We believe in craft as an art form.</p>
+    </div>
+    <div class="value-card">
+      <div class="v-icon">◈</div>
+      <h3 class="v-title">Ethical Sourcing</h3>
+      <p class="v-text">We work only with suppliers who share our commitment to responsible practices. Our leathers are sourced from certified tanneries that meet international environmental standards.</p>
+    </div>
+    <div class="value-card">
+      <div class="v-icon">⟡</div>
+      <h3 class="v-title">Timeless Design</h3>
+      <p class="v-text">We reject the tyranny of fast fashion. Our designs are created to transcend seasonal trends — pieces you will carry with pride for years, even decades, to come.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div class="team">
+  <h2 class="team-title">The People Behind<br><em>Every Stitch</em></h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-photo">👜</div>
+      <p class="team-name">Priya Sharma</p>
+      <p class="team-role">Founder & Creative Director</p>
+    </div>
+    <div class="team-card">
+      <div class="team-photo">✂️</div>
+      <p class="team-name">Rajesh Kumar</p>
+      <p class="team-role">Head Artisan & Leathersmith</p>
+    </div>
+    <div class="team-card">
+      <div class="team-photo">🎨</div>
+      <p class="team-name">Ananya Patel</p>
+      <p class="team-role">Design Lead</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Maison Luxe. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html">Cart</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function updateCartCount() {
+    const cart=JSON.parse(localStorage.getItem('mlCart')||'[]');
+    const total=cart.reduce((s,i)=>s+i.qty,0);
+    document.querySelectorAll('#cartCount').forEach(el=>el.textContent=total);
+  }
+  updateCartCount();
+</script>
+</body>
+</html>
